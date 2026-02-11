@@ -2,8 +2,10 @@
 // This file initializes the Supabase client for the waitlist form
 
 // Supabase project configuration
-const SUPABASE_URL = 'https://dkgfuuenjbzsbtjiuhjn.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra';
+// Environment variables are injected at build time by Vercel
+// Fallback values are for local development
+const SUPABASE_URL = '{{SUPABASE_URL}}';
+const SUPABASE_ANON_KEY = '{{SUPABASE_ANON_KEY}}';
 
 // Initialize Supabase client
 // The Supabase JS library from CDN (UMD build) exposes 'supabase' as a global

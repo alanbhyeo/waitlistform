@@ -18,31 +18,32 @@
 4. **Build Command**: Leave empty (static site, no build needed)
 5. **Output Directory**: Leave empty (or set to `.`)
 
-### Step 3: Add Environment Variables
+### Step 3: Add Environment Variables (REQUIRED)
 1. Click **"Environment Variables"** section
-2. Add the following variables:
+2. Add the following variables (these are now required for the build):
    - **Name**: `VITE_SUPABASE_URL`
    - **Value**: `https://dkgfuuenjbzsbtjiuhjn.supabase.co`
    - **Environment**: Production, Preview, Development (select all)
+   - Click **"Add"**
    
    - **Name**: `VITE_SUPABASE_ANON_KEY`
    - **Value**: `sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra`
    - **Environment**: Production, Preview, Development (select all)
+   - Click **"Add"**
+
+**Note**: The build script will automatically inject these values into `supabase-config.js` during deployment.
 
 ### Step 4: Deploy
 1. Click **"Deploy"**
 2. Wait for deployment to complete (usually 1-2 minutes)
 3. Your site will be live at a URL like: `https://waitlistform.vercel.app`
 
-### Step 5: Update Supabase Config (Optional)
-If you want to use environment variables in production, update `supabase-config.js`:
+### Step 5: Build Process
+The project now uses a build script (`build.js`) that automatically injects environment variables into `supabase-config.js` during deployment. This happens automatically when Vercel builds your project.
 
-```javascript
-const SUPABASE_URL = window.VITE_SUPABASE_URL || 'https://dkgfuuenjbzsbtjiuhjn.supabase.co';
-const SUPABASE_ANON_KEY = window.VITE_SUPABASE_ANON_KEY || 'sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra';
-```
-
-**Note**: For static HTML files, environment variables need to be injected at build time. Vercel can do this, but you may need to use a build step or keep the current hardcoded values (which is fine for public keys).
+**Local Development**: 
+- Run `npm run build` before testing locally, or
+- The fallback values in `supabase-config.js` will be used if environment variables aren't set
 
 ## Option 2: Deploy via Vercel CLI
 

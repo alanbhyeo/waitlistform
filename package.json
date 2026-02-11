@@ -1,0 +1,12 @@
+{
+  "name": "waitlistform",
+  "version": "1.0.0",
+  "description": "Waitlist form with Supabase integration",
+  "scripts": {
+    "build": "node build.js",
+    "vercel-build": "npm run build"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}

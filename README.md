@@ -57,7 +57,8 @@ This project contains a person details webform with the following features:
 
 2. ✅ Create Supabase client configuration
    - ✅ Created `supabase-config.js` with Supabase client initialization
-   - ⚠️ Configure environment variables for Vercel (use environment variables in production)
+   - ✅ Configured to use environment variables (injected at build time)
+   - ✅ Created build script for environment variable injection
 
 3. ✅ Add form submission handler
    - ✅ Created `form-handler.js` using supabase-js

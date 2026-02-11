@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Client URL:', supabase.supabaseUrl);
             
             // Submit to Supabase
+            // Note: Using .select() requires a SELECT policy in addition to INSERT policy
             const { data, error } = await supabase
                 .from('customer')
                 .insert([formData])

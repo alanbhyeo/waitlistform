@@ -67,20 +67,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get form data
             const formData = getFormData();
             
-            // Log form data for debugging (remove in production if needed)
-            console.log('Submitting form data (full):', JSON.stringify(formData, null, 2));
-            console.log('Form data types:', Object.keys(formData).reduce((acc, key) => {
-                acc[key] = typeof formData[key] + (formData[key] === null ? ' (null)' : formData[key] === '' ? ' (empty string)' : '');
-                return acc;
-            }, {}));
-            
             // Verify Supabase client before submitting
             if (!supabase || typeof supabase.from !== 'function') {
                 throw new Error('Supabase client is not properly initialized');
             }
-            
-            console.log('Submitting to Supabase with client:', supabase);
-            console.log('Client URL:', supabase.supabaseUrl);
             
             // Submit to Supabase
             // Note: Using .select() requires a SELECT policy in addition to INSERT policy

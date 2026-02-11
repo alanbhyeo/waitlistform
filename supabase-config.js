@@ -15,16 +15,9 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
     function createClient() {
         // Check if Supabase library is loaded (UMD build exposes it as window.supabase)
         // Also check for alternative global names
-        console.log('Checking for Supabase library...');
-        console.log('window.supabase:', typeof window.supabase);
-        console.log('window.supabaseJs:', typeof window.supabaseJs);
-        console.log('window.Supabase:', typeof window.Supabase);
-        console.log('Available globals:', Object.keys(window).filter(k => k.toLowerCase().includes('supabase')));
-        
         const supabaseLib = window.supabase || window.supabaseJs || window.Supabase;
         
         if (supabaseLib && typeof supabaseLib.createClient === 'function') {
-            console.log('Found Supabase library:', supabaseLib);
             try {
                 // Create and store the client globally
                 // Verify the key is not empty
@@ -49,39 +42,12 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
                     throw new Error('Supabase client was not created correctly');
                 }
                 
-                // Verify the client has the correct configuration
-                // Check if the client has the supabaseUrl property (some versions use different property names)
-                console.log('Client properties:', Object.keys(window.supabaseClient));
-                
-                // Test a simple query to verify the client works
-                // This will help us see if the API key is being sent
-                window.supabaseClient.from('customer')
-                    .select('count')
-                    .limit(0)
-                    .then(({ data, error }) => {
-                        if (error && error.message && error.message.includes('API key')) {
-                            console.error('API key issue detected:', error);
-                        } else if (error) {
-                            console.log('Client test query result (expected error for empty query):', error.message);
-                        } else {
-                            console.log('Client test successful - API key is working');
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Client test failed:', err);
-                    });
-                
                 // Verify client was created
                 if (!window.supabaseClient) {
                     throw new Error('Failed to create Supabase client');
                 }
                 
                 console.log('Supabase client initialized successfully');
-                console.log('Using key format:', SUPABASE_ANON_KEY.startsWith('sb_publishable_') ? 'modern publishable' : 'legacy anon');
-                console.log('Supabase URL:', SUPABASE_URL);
-                console.log('Key length:', SUPABASE_ANON_KEY.length);
-                console.log('Key preview:', SUPABASE_ANON_KEY.substring(0, 30) + '...');
-                console.log('Client object:', window.supabaseClient);
                 
                 return window.supabaseClient;
             } catch (error) {
@@ -91,7 +57,6 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
             }
         } else {
             // Retry after a short delay if library hasn't loaded yet
-            console.log('Supabase library not found yet, retrying...');
             setTimeout(createClient, 50);
         }
     }

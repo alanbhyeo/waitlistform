@@ -262,10 +262,16 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (error.code === '23514') {
             // Check constraint violation
             errorMessage = 'Please check your form data. Some fields may be invalid.';
+        } else if (error.message && error.message.includes('row-level security')) {
+            // RLS policy violation
+            errorMessage = 'Validation error: Please check that all required fields are filled correctly. ' +
+                          'Mobile number must be in format 04XX XXX XXX, and other fields must be valid.';
+            console.error('RLS Policy Error:', error);
         } else if (error.message) {
             errorMessage = error.message;
         }
 
+        console.error('Form submission error details:', error);
         showMessage(errorMessage, 'error');
     }
 

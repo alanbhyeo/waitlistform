@@ -14,7 +14,10 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 (function initSupabase() {
     function createClient() {
         // Check if Supabase library is loaded (UMD build exposes it as window.supabase)
-        if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
+        // Also check for alternative global names
+        const supabaseLib = window.supabase || window.supabaseJs || window.Supabase;
+        
+        if (supabaseLib && typeof supabaseLib.createClient === 'function') {
             try {
                 // Create and store the client globally
                 // Verify the key is not empty
@@ -32,7 +35,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
                     }
                 };
                 
-                window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, clientOptions);
+                window.supabaseClient = supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, clientOptions);
                 
                 // Test the client by checking if it has the expected methods
                 if (!window.supabaseClient || typeof window.supabaseClient.from !== 'function') {

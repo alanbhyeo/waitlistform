@@ -66,10 +66,13 @@ This project contains a person details webform with the following features:
    - ✅ Inserts data directly into Supabase from frontend
    - ✅ Error handling and user feedback
 
-4. Configure n8n webhook workflow (optional)
-   - Set up Supabase database webhook or trigger
-   - Configure n8n workflow to receive notifications
-   - Set up Slack notification integration
+4. ✅ Configure n8n webhook workflow
+   - ✅ Set up Supabase database webhook trigger (PostgreSQL trigger using pg_net)
+   - ✅ Configured n8n workflow to receive notifications
+   - ✅ Set up Slack notification integration (similar to "Email to Slack" workflow)
+   - ✅ Set up Gmail email notifications (using same Gmail config as "Arsenal_RSS_Feed")
+   - ✅ Workflow ID: `a1fFzsWRNnecorHR`
+   - ✅ Webhook URL: `https://alanbhyeo.app.n8n.cloud/webhook/waitlist-form`
 
 5. ✅ Deploy to Vercel
    - ✅ Created `vercel.json` configuration file

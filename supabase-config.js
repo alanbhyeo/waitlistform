@@ -2,9 +2,9 @@
 // This file initializes the Supabase client for the waitlist form
 
 // Supabase project configuration
-// Environment variables are injected at build time by Vercel
-// Fallback values are for local development
-// NOTE: Using legacy anon key for compatibility - modern publishable keys may not be fully supported yet
+// Environment variables are injected at build time by Vercel via build.js
+// Placeholders {{SUPABASE_URL}} and {{SUPABASE_ANON_KEY}} are replaced during build
+// Fallback values are defined in build.js for local development
 const SUPABASE_URL = 'https://dkgfuuenjbzsbtjiuhjn.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrZ2Z1dWVuamJ6c2J0aml1aGpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3NTE3MTYsImV4cCI6MjA4NjMyNzcxNn0.p1_3JFUWdfi-Draw4BEeZJ4JDozn4mp5hyU9PtWfqBg';
 

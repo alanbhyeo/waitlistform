@@ -32,8 +32,9 @@ This project contains a person details webform with the following features:
 
 - `form.html` - Main HTML form with person details fields
 - `styles.css` - Modern, responsive CSS styling
-- `form-handler.js` - Form submission handler using supabase-js (to be created)
-- `supabase-config.js` - Supabase client configuration (to be created)
+- `form-handler.js` - Form submission handler using supabase-js ✅
+- `supabase-config.js` - Supabase client configuration ✅
+- `.gitignore` - Git ignore rules
 - `vercel.json` - Vercel deployment configuration (if needed)
 
 ## Form Fields
@@ -48,19 +49,21 @@ This project contains a person details webform with the following features:
 
 ## Next Steps
 
-1. Set up Supabase database and table
-   - Create Postgres table for form submissions
-   - Configure Row Level Security (RLS) policies
-   - Set up Supabase project and get API keys
+1. ✅ Set up Supabase database and table
+   - ✅ Created `customer` table with all form fields
+   - ✅ Configured Row Level Security (RLS) policies with validation
+   - ✅ Added database constraints for data validation
+   - ✅ Connected to Supabase project
 
-2. Create Supabase client configuration
-   - Create `supabase-config.js` with Supabase client initialization
-   - Configure environment variables for Vercel
+2. ✅ Create Supabase client configuration
+   - ✅ Created `supabase-config.js` with Supabase client initialization
+   - ⚠️ Configure environment variables for Vercel (use environment variables in production)
 
-3. Add form submission handler
-   - Create `form-handler.js` using supabase-js
-   - Handle form validation and submission
-   - Insert data directly into Supabase from frontend
+3. ✅ Add form submission handler
+   - ✅ Created `form-handler.js` using supabase-js
+   - ✅ Handles form validation and submission
+   - ✅ Inserts data directly into Supabase from frontend
+   - ✅ Error handling and user feedback
 
 4. Configure n8n webhook workflow (optional)
    - Set up Supabase database webhook or trigger
@@ -69,7 +72,7 @@ This project contains a person details webform with the following features:
 
 5. Deploy to Vercel
    - Configure Vercel project
-   - Set environment variables
+   - Set environment variables (Supabase URL and keys)
    - Deploy and test form submission flow
 
 6. Test form submission flow
@@ -84,3 +87,20 @@ This project contains a person details webform with the following features:
 - **Database**: Supabase (Postgres)
 - **Client Library**: supabase-js (REST API)
 - **Automation**: n8n (webhook → Slack notification, optional)
+
+## Environment Variables (for Vercel)
+
+For production deployment on Vercel, you should use environment variables instead of hardcoding credentials in `supabase-config.js`:
+
+1. In Vercel dashboard, go to your project settings
+2. Add environment variables:
+   - `VITE_SUPABASE_URL` or `NEXT_PUBLIC_SUPABASE_URL` (depending on framework)
+   - `VITE_SUPABASE_ANON_KEY` or `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+3. Update `supabase-config.js` to read from environment variables:
+   ```javascript
+   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://dkgfuuenjbzsbtjiuhjn.supabase.co';
+   const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-key-here';
+   ```
+
+**Note**: For static HTML files, you may need to use a build tool or server-side rendering to inject environment variables, or use Vercel's environment variable injection feature.

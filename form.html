@@ -137,68 +137,81 @@
         </div>
     </div>
 
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    
+    <!-- Supabase Configuration -->
+    <script src="supabase-config.js"></script>
+    
+    <!-- Phone Number Formatting Script -->
     <script>
         // Phone number formatting: 04XX XXX XXX
-        const phoneInput = document.getElementById('phone');
-        
-        phoneInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\s/g, ''); // Remove all spaces
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneInput = document.getElementById('phone');
             
-            // Only allow digits
-            value = value.replace(/\D/g, '');
-            
-            // Ensure it starts with 04
-            if (value.length > 0 && !value.startsWith('04')) {
-                if (value.startsWith('4')) {
-                    value = '0' + value;
-                } else {
-                    value = '04' + value.replace(/^0*/, '');
-                }
-            }
-            
-            // Limit to 10 digits (04XX XXX XXX)
-            if (value.length > 10) {
-                value = value.substring(0, 10);
-            }
-            
-            // Format: 04XX XXX XXX
-            let formatted = '';
-            if (value.length > 0) {
-                formatted = value.substring(0, 4); // 04XX
-                if (value.length > 4) {
-                    formatted += ' ' + value.substring(4, 7); // XXX
-                }
-                if (value.length > 7) {
-                    formatted += ' ' + value.substring(7, 10); // XXX
-                }
-            }
-            
-            e.target.value = formatted;
-        });
-        
-        // Validate phone number on blur
-        phoneInput.addEventListener('blur', function(e) {
-            const value = e.target.value.replace(/\s/g, '');
-            const phoneError = document.getElementById('phoneError');
-            
-            if (value.length > 0 && value.length !== 10) {
-                phoneError.textContent = 'Phone number must be in format 04XX XXX XXX';
-            } else if (value.length > 0 && !value.startsWith('04')) {
-                phoneError.textContent = 'Phone number must start with 04';
-            } else {
-                phoneError.textContent = '';
-            }
-        });
-        
-        // Clear error on input
-        phoneInput.addEventListener('input', function() {
-            const phoneError = document.getElementById('phoneError');
-            const value = this.value.replace(/\s/g, '');
-            if (value.length === 10 && value.startsWith('04')) {
-                phoneError.textContent = '';
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\s/g, ''); // Remove all spaces
+                    
+                    // Only allow digits
+                    value = value.replace(/\D/g, '');
+                    
+                    // Ensure it starts with 04
+                    if (value.length > 0 && !value.startsWith('04')) {
+                        if (value.startsWith('4')) {
+                            value = '0' + value;
+                        } else {
+                            value = '04' + value.replace(/^0*/, '');
+                        }
+                    }
+                    
+                    // Limit to 10 digits (04XX XXX XXX)
+                    if (value.length > 10) {
+                        value = value.substring(0, 10);
+                    }
+                    
+                    // Format: 04XX XXX XXX
+                    let formatted = '';
+                    if (value.length > 0) {
+                        formatted = value.substring(0, 4); // 04XX
+                        if (value.length > 4) {
+                            formatted += ' ' + value.substring(4, 7); // XXX
+                        }
+                        if (value.length > 7) {
+                            formatted += ' ' + value.substring(7, 10); // XXX
+                        }
+                    }
+                    
+                    e.target.value = formatted;
+                });
+                
+                // Validate phone number on blur
+                phoneInput.addEventListener('blur', function(e) {
+                    const value = e.target.value.replace(/\s/g, '');
+                    const phoneError = document.getElementById('phoneError');
+                    
+                    if (value.length > 0 && value.length !== 10) {
+                        phoneError.textContent = 'Phone number must be in format 04XX XXX XXX';
+                    } else if (value.length > 0 && !value.startsWith('04')) {
+                        phoneError.textContent = 'Phone number must start with 04';
+                    } else {
+                        phoneError.textContent = '';
+                    }
+                });
+                
+                // Clear error on input
+                phoneInput.addEventListener('input', function() {
+                    const phoneError = document.getElementById('phoneError');
+                    const value = this.value.replace(/\s/g, '');
+                    if (value.length === 10 && value.startsWith('04')) {
+                        phoneError.textContent = '';
+                    }
+                });
             }
         });
     </script>
+    
+    <!-- Form Handler -->
     <script src="form-handler.js"></script>
 </body>
 </html>

@@ -23,18 +23,20 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
                     throw new Error('SUPABASE_ANON_KEY is required');
                 }
                 
-                // Create client with explicit configuration
+                // Create client - Supabase JS automatically adds apikey header
+                // The second parameter (SUPABASE_ANON_KEY) is automatically used as the apikey header
                 window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
                     auth: {
                         persistSession: false,
                         autoRefreshToken: false
-                    },
-                    global: {
-                        headers: {
-                            'apikey': SUPABASE_ANON_KEY
-                        }
                     }
                 });
+                
+                // Verify the client has the correct configuration
+                // The Supabase client should have supabaseUrl and supabaseKey properties
+                if (window.supabaseClient.supabaseUrl !== SUPABASE_URL) {
+                    console.warn('Supabase URL mismatch!');
+                }
                 
                 // Verify client was created
                 if (!window.supabaseClient) {

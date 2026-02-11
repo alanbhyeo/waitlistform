@@ -26,6 +26,8 @@
 7. Repeat for second variable:
    - **Name**: `VITE_SUPABASE_ANON_KEY`
    - **Value**: `sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra`
+   
+   **Important**: Using modern publishable key format (starting with `sb_publishable_`). The Supabase JS library v2.39.0+ supports this format.
    - **Environments**: Select all
    - Click **"Save"**
 8. **Redeploy**: Go to "Deployments" tab → Click "..." on latest deployment → "Redeploy"

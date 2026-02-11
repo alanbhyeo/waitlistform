@@ -73,8 +73,10 @@ This project contains a person details webform with the following features:
 
 5. ✅ Deploy to Vercel
    - ✅ Created `vercel.json` configuration file
-   - ⚠️ Ready for deployment via Vercel Dashboard (see DEPLOYMENT.md)
-   - ⚠️ Set environment variables in Vercel dashboard (optional)
+   - ✅ Created `build.js` for environment variable injection
+   - ✅ Created `package.json` with build scripts
+   - ✅ Ready for deployment via Vercel Dashboard (see DEPLOYMENT.md)
+   - ⚠️ **Action Required**: Set environment variables in Vercel dashboard (REQUIRED)
    - ⚠️ Deploy and test form submission flow
 
 6. Test form submission flow
@@ -92,17 +94,13 @@ This project contains a person details webform with the following features:
 
 ## Environment Variables (for Vercel)
 
-For production deployment on Vercel, you should use environment variables instead of hardcoding credentials in `supabase-config.js`:
+**REQUIRED**: Environment variables must be set in Vercel dashboard for the build to work.
 
-1. In Vercel dashboard, go to your project settings
-2. Add environment variables:
-   - `VITE_SUPABASE_URL` or `NEXT_PUBLIC_SUPABASE_URL` (depending on framework)
-   - `VITE_SUPABASE_ANON_KEY` or `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+1. In Vercel dashboard, go to your project settings → Environment Variables
+2. Add these variables (see `VERCEL_ENV_VARS.md` for detailed instructions):
+   - `VITE_SUPABASE_URL`: `https://dkgfuuenjbzsbtjiuhjn.supabase.co`
+   - `VITE_SUPABASE_ANON_KEY`: `sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra`
+3. Select all environments (Production, Preview, Development)
+4. The build script (`build.js`) automatically injects these values at build time
 
-3. Update `supabase-config.js` to read from environment variables:
-   ```javascript
-   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://dkgfuuenjbzsbtjiuhjn.supabase.co';
-   const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-key-here';
-   ```
-
-**Note**: For static HTML files, you may need to use a build tool or server-side rendering to inject environment variables, or use Vercel's environment variable injection feature.
+**Local Development**: Run `npm run build` before testing, or the fallback values will be used.

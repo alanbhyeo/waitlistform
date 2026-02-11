@@ -6,6 +6,7 @@ const path = require('path');
 
 // Get environment variables (Vercel provides these)
 // Fallback values for local development
+// Using modern publishable key format (sb_publishable_...)
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || 'https://dkgfuuenjbzsbtjiuhjn.supabase.co';
 const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra';
 

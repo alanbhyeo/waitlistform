@@ -28,6 +28,8 @@
    
    - **Name**: `VITE_SUPABASE_ANON_KEY`
    - **Value**: `sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra`
+   
+   **Note**: Using modern publishable key format. Supabase JS v2.39.0+ supports this format.
    - **Environment**: Production, Preview, Development (select all)
    - Click **"Add"**
 

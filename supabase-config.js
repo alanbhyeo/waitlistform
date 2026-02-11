@@ -14,10 +14,22 @@ const SUPABASE_ANON_KEY = 'sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra';
     function createClient() {
         // Check if Supabase library is loaded (UMD build exposes it as window.supabase)
         if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
-            // Create and store the client globally
-            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            console.log('Supabase client initialized successfully');
-            return window.supabaseClient;
+            try {
+                // Create and store the client globally
+                // For modern publishable keys, we may need to pass additional options
+                const options = SUPABASE_ANON_KEY.startsWith('sb_publishable_') 
+                    ? { auth: { persistSession: false } } 
+                    : {};
+                
+                window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, options);
+                console.log('Supabase client initialized successfully');
+                console.log('Using key format:', SUPABASE_ANON_KEY.startsWith('sb_publishable_') ? 'modern publishable' : 'legacy anon');
+                return window.supabaseClient;
+            } catch (error) {
+                console.error('Error creating Supabase client:', error);
+                // Retry after a delay
+                setTimeout(createClient, 100);
+            }
         } else {
             // Retry after a short delay if library hasn't loaded yet
             setTimeout(createClient, 50);

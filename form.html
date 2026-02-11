@@ -138,8 +138,20 @@
         </div>
     </div>
 
-    <!-- Supabase JS Library - Using unpkg CDN as alternative -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2.39.3/dist/umd/index.js"></script>
+    <!-- Supabase JS Library - Using jsdelivr CDN with correct UMD path -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <script>
+        // Verify Supabase library loaded
+        window.addEventListener('load', function() {
+            console.log('Page loaded, checking Supabase library...');
+            console.log('window.supabase:', typeof window.supabase);
+            if (typeof window.supabase === 'undefined') {
+                console.error('Supabase library failed to load from CDN!');
+            } else {
+                console.log('Supabase library loaded successfully');
+            }
+        });
+    </script>
     
     <!-- Supabase Configuration -->
     <script src="supabase-config.js"></script>

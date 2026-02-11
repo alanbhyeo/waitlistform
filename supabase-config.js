@@ -15,9 +15,16 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
     function createClient() {
         // Check if Supabase library is loaded (UMD build exposes it as window.supabase)
         // Also check for alternative global names
+        console.log('Checking for Supabase library...');
+        console.log('window.supabase:', typeof window.supabase);
+        console.log('window.supabaseJs:', typeof window.supabaseJs);
+        console.log('window.Supabase:', typeof window.Supabase);
+        console.log('Available globals:', Object.keys(window).filter(k => k.toLowerCase().includes('supabase')));
+        
         const supabaseLib = window.supabase || window.supabaseJs || window.Supabase;
         
         if (supabaseLib && typeof supabaseLib.createClient === 'function') {
+            console.log('Found Supabase library:', supabaseLib);
             try {
                 // Create and store the client globally
                 // Verify the key is not empty
@@ -84,6 +91,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
             }
         } else {
             // Retry after a short delay if library hasn't loaded yet
+            console.log('Supabase library not found yet, retrying...');
             setTimeout(createClient, 50);
         }
     }

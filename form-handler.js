@@ -73,6 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 mobile: formData.mobile ? formData.mobile.substring(0, 4) + '...' : 'null'
             });
             
+            // Verify Supabase client before submitting
+            if (!supabase || typeof supabase.from !== 'function') {
+                throw new Error('Supabase client is not properly initialized');
+            }
+            
+            console.log('Submitting to Supabase with client:', supabase);
+            console.log('Client URL:', supabase.supabaseUrl);
+            
             // Submit to Supabase
             const { data, error } = await supabase
                 .from('customer')

@@ -6,7 +6,8 @@ const path = require('path');
 
 // Get environment variables (Vercel provides these)
 // Fallback values for local development
-// Using modern publishable key format (sb_publishable_...)
+// Note: Modern publishable keys may require Supabase JS v2.39.3+ or specific configuration
+// If getting 401 errors, verify the key format is supported by your Supabase JS version
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || 'https://dkgfuuenjbzsbtjiuhjn.supabase.co';
 const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra';
 

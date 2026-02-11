@@ -70,10 +70,11 @@ This project contains a person details webform with the following features:
    - Configure n8n workflow to receive notifications
    - Set up Slack notification integration
 
-5. Deploy to Vercel
-   - Configure Vercel project
-   - Set environment variables (Supabase URL and keys)
-   - Deploy and test form submission flow
+5. ✅ Deploy to Vercel
+   - ✅ Created `vercel.json` configuration file
+   - ⚠️ Ready for deployment via Vercel Dashboard (see DEPLOYMENT.md)
+   - ⚠️ Set environment variables in Vercel dashboard (optional)
+   - ⚠️ Deploy and test form submission flow
 
 6. Test form submission flow
    - Test end-to-end submission from browser

@@ -68,10 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = getFormData();
             
             // Log form data for debugging (remove in production if needed)
-            console.log('Submitting form data:', {
-                ...formData,
-                mobile: formData.mobile ? formData.mobile.substring(0, 4) + '...' : 'null'
-            });
+            console.log('Submitting form data (full):', JSON.stringify(formData, null, 2));
+            console.log('Form data types:', Object.keys(formData).reduce((acc, key) => {
+                acc[key] = typeof formData[key] + (formData[key] === null ? ' (null)' : formData[key] === '' ? ' (empty string)' : '');
+                return acc;
+            }, {}));
             
             // Verify Supabase client before submitting
             if (!supabase || typeof supabase.from !== 'function') {

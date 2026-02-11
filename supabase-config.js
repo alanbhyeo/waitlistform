@@ -4,8 +4,9 @@
 // Supabase project configuration
 // Environment variables are injected at build time by Vercel
 // Fallback values are for local development
+// NOTE: Using legacy anon key for compatibility - modern publishable keys may not be fully supported yet
 const SUPABASE_URL = 'https://dkgfuuenjbzsbtjiuhjn.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrZ2Z1dWVuamJ6c2J0aml1aGpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3NTE3MTYsImV4cCI6MjA4NjMyNzcxNn0.p1_3JFUWdfi-Draw4BEeZJ4JDozn4mp5hyU9PtWfqBg';
 
 // Initialize Supabase client
 // The Supabase JS library from CDN (UMD build) exposes 'supabase' as a global

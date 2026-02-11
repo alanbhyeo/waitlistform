@@ -1,20 +1,10 @@
 {
   "version": 2,
   "buildCommand": "npm run build",
-  "builds": [
+  "rewrites": [
     {
-      "src": "form.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/",
-      "dest": "/form.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/",
+      "destination": "/form.html"
     }
   ],
   "headers": [

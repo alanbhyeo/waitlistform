@@ -67,6 +67,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get form data
             const formData = getFormData();
             
+            // Log form data for debugging (remove in production if needed)
+            console.log('Submitting form data:', {
+                ...formData,
+                mobile: formData.mobile ? formData.mobile.substring(0, 4) + '...' : 'null'
+            });
+            
             // Submit to Supabase
             const { data, error } = await supabase
                 .from('customer')
@@ -108,11 +114,13 @@ document.addEventListener('DOMContentLoaded', function() {
             marketing_opt_in: true
         };
 
-        // Remove null/empty values for optional fields
+        // Convert empty strings to null for optional fields (RLS policy expects NULL, not empty strings)
         Object.keys(formData).forEach(key => {
-            if (formData[key] === '' || formData[key] === null) {
-                if (key !== 'date_of_birth') { // Keep date_of_birth as null if empty
-                    delete formData[key];
+            if (formData[key] === '') {
+                // Convert empty strings to null for optional fields
+                // Required fields (email, first_name, last_name, mobile) should never be empty due to validation
+                if (key !== 'email' && key !== 'first_name' && key !== 'last_name' && key !== 'mobile') {
+                    formData[key] = null;
                 }
             }
         });

@@ -11,28 +11,46 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Supabase client
     // Wait for Supabase to be initialized (loaded by supabase-config.js)
     let supabase = window.supabaseClient;
+    let supabaseInitialized = false;
+    let waitForSupabaseInterval = null;
     
     // Wait for Supabase client to be ready
-    const waitForSupabase = setInterval(() => {
-        supabase = window.supabaseClient;
-        if (supabase) {
-            clearInterval(waitForSupabase);
+    waitForSupabaseInterval = setInterval(() => {
+        const client = window.supabaseClient;
+        if (client) {
+            supabase = client;
+            clearInterval(waitForSupabaseInterval);
+            supabaseInitialized = true;
+            waitForSupabaseInterval = null;
             console.log('Supabase client ready');
         }
     }, 100);
     
     // Timeout after 5 seconds
     setTimeout(() => {
-        if (!supabase) {
-            clearInterval(waitForSupabase);
+        if (!supabaseInitialized && waitForSupabaseInterval) {
+            clearInterval(waitForSupabaseInterval);
+            waitForSupabaseInterval = null;
             console.error('Supabase client not initialized. Make sure supabase-config.js is loaded.');
             showMessage('Configuration error. Please refresh the page.', 'error');
+            // Disable form inputs when initialization fails
+            submitButton.disabled = true;
+            const formInputs = form.querySelectorAll('input, select, button[type="submit"], button[type="reset"]');
+            formInputs.forEach(input => {
+                input.disabled = true;
+            });
         }
     }, 5000);
 
     // Form submission handler
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
+        
+        // Check if Supabase is initialized
+        if (!supabaseInitialized || !supabase) {
+            showMessage('Configuration error. Please refresh the page and try again.', 'error');
+            return;
+        }
         
         // Clear previous messages
         clearMessages();

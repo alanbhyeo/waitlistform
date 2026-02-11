@@ -16,14 +16,17 @@ const SUPABASE_ANON_KEY = 'sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra';
         if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
             try {
                 // Create and store the client globally
-                // For modern publishable keys, we may need to pass additional options
-                const options = SUPABASE_ANON_KEY.startsWith('sb_publishable_') 
-                    ? { auth: { persistSession: false } } 
-                    : {};
-                
-                window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, options);
+                // Modern publishable keys work the same way as legacy keys in Supabase JS v2.39.3+
+                window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                    auth: {
+                        persistSession: false,
+                        autoRefreshToken: false
+                    }
+                });
                 console.log('Supabase client initialized successfully');
                 console.log('Using key format:', SUPABASE_ANON_KEY.startsWith('sb_publishable_') ? 'modern publishable' : 'legacy anon');
+                console.log('Supabase URL:', SUPABASE_URL);
+                console.log('Key preview:', SUPABASE_ANON_KEY.substring(0, 20) + '...');
                 return window.supabaseClient;
             } catch (error) {
                 console.error('Error creating Supabase client:', error);

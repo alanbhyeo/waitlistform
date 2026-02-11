@@ -25,18 +25,41 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
                 
                 // Create client - Supabase JS automatically adds apikey header
                 // The second parameter (SUPABASE_ANON_KEY) is automatically used as the apikey header
-                window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                const clientOptions = {
                     auth: {
                         persistSession: false,
                         autoRefreshToken: false
                     }
-                });
+                };
+                
+                window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, clientOptions);
+                
+                // Test the client by checking if it has the expected methods
+                if (!window.supabaseClient || typeof window.supabaseClient.from !== 'function') {
+                    throw new Error('Supabase client was not created correctly');
+                }
                 
                 // Verify the client has the correct configuration
-                // The Supabase client should have supabaseUrl and supabaseKey properties
-                if (window.supabaseClient.supabaseUrl !== SUPABASE_URL) {
-                    console.warn('Supabase URL mismatch!');
-                }
+                // Check if the client has the supabaseUrl property (some versions use different property names)
+                console.log('Client properties:', Object.keys(window.supabaseClient));
+                
+                // Test a simple query to verify the client works
+                // This will help us see if the API key is being sent
+                window.supabaseClient.from('customer')
+                    .select('count')
+                    .limit(0)
+                    .then(({ data, error }) => {
+                        if (error && error.message && error.message.includes('API key')) {
+                            console.error('API key issue detected:', error);
+                        } else if (error) {
+                            console.log('Client test query result (expected error for empty query):', error.message);
+                        } else {
+                            console.log('Client test successful - API key is working');
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Client test failed:', err);
+                    });
                 
                 // Verify client was created
                 if (!window.supabaseClient) {

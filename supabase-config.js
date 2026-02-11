@@ -17,17 +17,37 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
         if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
             try {
                 // Create and store the client globally
-                // Modern publishable keys work the same way as legacy keys in Supabase JS v2.39.3+
+                // Verify the key is not empty
+                if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.trim() === '') {
+                    console.error('SUPABASE_ANON_KEY is empty or undefined!');
+                    throw new Error('SUPABASE_ANON_KEY is required');
+                }
+                
+                // Create client with explicit configuration
                 window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
                     auth: {
                         persistSession: false,
                         autoRefreshToken: false
+                    },
+                    global: {
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY
+                        }
                     }
                 });
+                
+                // Verify client was created
+                if (!window.supabaseClient) {
+                    throw new Error('Failed to create Supabase client');
+                }
+                
                 console.log('Supabase client initialized successfully');
                 console.log('Using key format:', SUPABASE_ANON_KEY.startsWith('sb_publishable_') ? 'modern publishable' : 'legacy anon');
                 console.log('Supabase URL:', SUPABASE_URL);
-                console.log('Key preview:', SUPABASE_ANON_KEY.substring(0, 20) + '...');
+                console.log('Key length:', SUPABASE_ANON_KEY.length);
+                console.log('Key preview:', SUPABASE_ANON_KEY.substring(0, 30) + '...');
+                console.log('Client object:', window.supabaseClient);
+                
                 return window.supabaseClient;
             } catch (error) {
                 console.error('Error creating Supabase client:', error);

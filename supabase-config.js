@@ -3,11 +3,9 @@
 
 // Supabase project configuration
 // Environment variables are injected at build time by Vercel via build.js
-// Placeholders {{SUPABASE_URL}} and {{SUPABASE_ANON_KEY}} are replaced during build
-// Fallback values are defined in build.js for local development
-// Using modern publishable key format (sb_publishable_...)
-const SUPABASE_URL = 'https://dkgfuuenjbzsbtjiuhjn.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra';
+// Placeholders are replaced during build; do not commit real values
+const SUPABASE_URL = '{{SUPABASE_URL}}';
+const SUPABASE_ANON_KEY = '{{SUPABASE_ANON_KEY}}';
 
 // Initialize Supabase client
 // The Supabase JS library from CDN (UMD build) exposes 'supabase' as a global

@@ -20,6 +20,7 @@
                         id="firstName" 
                         name="firstName" 
                         required 
+                        maxlength="100"
                         placeholder="Enter your first name"
                     >
                     <span class="error-message" id="firstNameError"></span>
@@ -32,6 +33,7 @@
                         id="lastName" 
                         name="lastName" 
                         required 
+                        maxlength="100"
                         placeholder="Enter your last name"
                     >
                     <span class="error-message" id="lastNameError"></span>
@@ -44,6 +46,7 @@
                         id="email" 
                         name="email" 
                         required 
+                        maxlength="255"
                         placeholder="your.email@example.com"
                     >
                     <span class="error-message" id="emailError"></span>
@@ -79,6 +82,7 @@
                         type="text" 
                         id="streetAddress" 
                         name="streetAddress" 
+                        maxlength="500"
                         placeholder="123 Main Street"
                     >
                 </div>
@@ -90,6 +94,7 @@
                             type="text" 
                             id="city" 
                             name="city" 
+                            maxlength="100"
                             placeholder="City"
                         >
                     </div>
@@ -119,6 +124,7 @@
                             type="text" 
                             id="zipCode" 
                             name="zipCode" 
+                            maxlength="10"
                             placeholder="1234"
                         >
                         <span class="error-message" id="zipCodeError"></span>
@@ -138,81 +144,13 @@
         </div>
     </div>
 
-    <!-- Supabase JS Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <!-- Supabase JS Library (SRI for integrity; update integrity when changing version) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js" integrity="sha384-+exuGmToMCgcfiTDu+P+1aCmlH2Mis7lstkjVmVHdwvJqtNNqhxMreqsIe6bVstn" crossorigin="anonymous"></script>
     
     <!-- Supabase Configuration -->
     <script src="supabase-config.js"></script>
     
-    <!-- Phone Number Formatting Script -->
-    <script>
-        // Phone number formatting: 04XX XXX XXX
-        document.addEventListener('DOMContentLoaded', function() {
-            const phoneInput = document.getElementById('phone');
-            
-            if (phoneInput) {
-                phoneInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\s/g, ''); // Remove all spaces
-                    
-                    // Only allow digits
-                    value = value.replace(/\D/g, '');
-                    
-                    // Ensure it starts with 04
-                    if (value.length > 0 && !value.startsWith('04')) {
-                        if (value.startsWith('4')) {
-                            value = '0' + value;
-                        } else {
-                            value = '04' + value.replace(/^0*/, '');
-                        }
-                    }
-                    
-                    // Limit to 10 digits (04XX XXX XXX)
-                    if (value.length > 10) {
-                        value = value.substring(0, 10);
-                    }
-                    
-                    // Format: 04XX XXX XXX
-                    let formatted = '';
-                    if (value.length > 0) {
-                        formatted = value.substring(0, 4); // 04XX
-                        if (value.length > 4) {
-                            formatted += ' ' + value.substring(4, 7); // XXX
-                        }
-                        if (value.length > 7) {
-                            formatted += ' ' + value.substring(7, 10); // XXX
-                        }
-                    }
-                    
-                    e.target.value = formatted;
-                });
-                
-                // Validate phone number on blur
-                phoneInput.addEventListener('blur', function(e) {
-                    const value = e.target.value.replace(/\s/g, '');
-                    const phoneError = document.getElementById('phoneError');
-                    
-                    if (value.length > 0 && value.length !== 10) {
-                        phoneError.textContent = 'Phone number must be in format 04XX XXX XXX';
-                    } else if (value.length > 0 && !value.startsWith('04')) {
-                        phoneError.textContent = 'Phone number must start with 04';
-                    } else {
-                        phoneError.textContent = '';
-                    }
-                });
-                
-                // Clear error on input
-                phoneInput.addEventListener('input', function() {
-                    const phoneError = document.getElementById('phoneError');
-                    const value = this.value.replace(/\s/g, '');
-                    if (value.length === 10 && value.startsWith('04')) {
-                        phoneError.textContent = '';
-                    }
-                });
-            }
-        });
-    </script>
-    
-    <!-- Form Handler -->
+    <!-- Form Handler (includes phone formatting) -->
     <script src="form-handler.js"></script>
 </body>
 </html>

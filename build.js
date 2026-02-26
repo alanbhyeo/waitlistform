@@ -4,16 +4,15 @@
 const fs = require('fs');
 const path = require('path');
 
-// Get environment variables (Vercel provides these)
-// Fallback values for local development
-// Using modern publishable key format (sb_publishable_...)
-// Supabase JS v2.39.3+ supports modern publishable keys
-const SUPABASE_URL = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || 'https://dkgfuuenjbzsbtjiuhjn.supabase.co';
-const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra';
+// Get environment variables (Vercel provides these at build time)
+// For local dev: set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env (or export them)
+// Do not commit real keys; use Vercel env vars or .env (and add .env to .gitignore)
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
 
-// Validate that we have the required values
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-    console.error('Error: SUPABASE_URL and SUPABASE_ANON_KEY must be set');
+    console.error('Error: SUPABASE_URL and SUPABASE_ANON_KEY must be set.');
+    console.error('Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Vercel or in a .env file for local development.');
     process.exit(1);
 }
 

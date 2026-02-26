@@ -20,16 +20,14 @@
 
 ### Step 3: Add Environment Variables (REQUIRED)
 1. Click **"Environment Variables"** section
-2. Add the following variables (these are now required for the build):
+2. Add the following variables (get values from Supabase Dashboard → Settings → API):
    - **Name**: `VITE_SUPABASE_URL`
-   - **Value**: `https://dkgfuuenjbzsbtjiuhjn.supabase.co`
+   - **Value**: Your Supabase project URL (e.g. `https://YOUR_PROJECT_REF.supabase.co`)
    - **Environment**: Production, Preview, Development (select all)
    - Click **"Add"**
    
    - **Name**: `VITE_SUPABASE_ANON_KEY`
-   - **Value**: `sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra`
-   
-   **Note**: Using modern publishable key format. Supabase JS v2.39.0+ supports this format.
+   - **Value**: Your Supabase anon (publishable) key
    - **Environment**: Production, Preview, Development (select all)
    - Click **"Add"**
 

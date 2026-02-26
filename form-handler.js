@@ -2,6 +2,50 @@
 // Handles form submission, validation, and Supabase integration
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Phone number formatting: 04XX XXX XXX (moved from inline script for CSP)
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            value = value.replace(/\D/g, '');
+            if (value.length > 0 && !value.startsWith('04')) {
+                if (value.startsWith('4')) {
+                    value = '0' + value;
+                } else {
+                    value = '04' + value.replace(/^0*/, '');
+                }
+            }
+            if (value.length > 10) {
+                value = value.substring(0, 10);
+            }
+            let formatted = '';
+            if (value.length > 0) {
+                formatted = value.substring(0, 4);
+                if (value.length > 4) formatted += ' ' + value.substring(4, 7);
+                if (value.length > 7) formatted += ' ' + value.substring(7, 10);
+            }
+            e.target.value = formatted;
+        });
+        phoneInput.addEventListener('blur', function(e) {
+            const value = e.target.value.replace(/\s/g, '');
+            const phoneError = document.getElementById('phoneError');
+            if (value.length > 0 && value.length !== 10) {
+                phoneError.textContent = 'Phone number must be in format 04XX XXX XXX';
+            } else if (value.length > 0 && !value.startsWith('04')) {
+                phoneError.textContent = 'Phone number must start with 04';
+            } else {
+                phoneError.textContent = '';
+            }
+        });
+        phoneInput.addEventListener('input', function() {
+            const phoneError = document.getElementById('phoneError');
+            const value = this.value.replace(/\s/g, '');
+            if (value.length === 10 && value.startsWith('04')) {
+                phoneError.textContent = '';
+            }
+        });
+    }
+
     const form = document.getElementById('personDetailsForm');
     const submitButton = document.getElementById('submitButton');
     const buttonText = submitButton.querySelector('.button-text');
@@ -194,6 +238,46 @@ document.addEventListener('DOMContentLoaded', function() {
             isValid = false;
         }
 
+        // Length limits (align with DB and prevent oversized payloads)
+        const maxLengths = {
+            firstName: 100,
+            lastName: 100,
+            email: 255,
+            streetAddress: 500,
+            city: 100,
+            zipCode: 10
+        };
+        const firstNameEl = document.getElementById('firstName');
+        const lastNameEl = document.getElementById('lastName');
+        const emailEl = document.getElementById('email');
+        const streetEl = document.getElementById('streetAddress');
+        const cityEl = document.getElementById('city');
+        const zipEl = document.getElementById('zipCode');
+        if (firstNameEl && firstNameEl.value.length > maxLengths.firstName) {
+            showFieldError('firstName', 'First name is too long');
+            isValid = false;
+        }
+        if (lastNameEl && lastNameEl.value.length > maxLengths.lastName) {
+            showFieldError('lastName', 'Last name is too long');
+            isValid = false;
+        }
+        if (emailEl && emailEl.value.length > maxLengths.email) {
+            showFieldError('email', 'Email address is too long');
+            isValid = false;
+        }
+        if (streetEl && streetEl.value.length > maxLengths.streetAddress) {
+            showFieldError('streetAddress', 'Street address is too long');
+            isValid = false;
+        }
+        if (cityEl && cityEl.value.length > maxLengths.city) {
+            showFieldError('city', 'City is too long');
+            isValid = false;
+        }
+        if (zipEl && zipEl.value.length > maxLengths.zipCode) {
+            showFieldError('zipCode', 'Postcode is too long');
+            isValid = false;
+        }
+
         // Validate Date of Birth (if provided)
         const dateOfBirth = document.getElementById('dateOfBirth').value;
         if (dateOfBirth) {
@@ -262,24 +346,21 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleSubmissionError(error) {
         let errorMessage = 'An error occurred while submitting your form. Please try again.';
 
-        // Handle specific Supabase errors
+        // Handle specific Supabase errors (do not expose raw error.message to users)
         if (error.code === '23505') {
-            // Unique constraint violation (duplicate email)
             errorMessage = 'This email address is already registered. Please use a different email.';
             showFieldError('email', 'This email is already registered');
         } else if (error.code === '23514') {
-            // Check constraint violation
             errorMessage = 'Please check your form data. Some fields may be invalid.';
         } else if (error.message && error.message.includes('row-level security')) {
-            // RLS policy violation
             errorMessage = 'Validation error: Please check that all required fields are filled correctly. ' +
                           'Mobile number must be in format 04XX XXX XXX, and other fields must be valid.';
             console.error('RLS Policy Error:', error);
-        } else if (error.message) {
-            errorMessage = error.message;
         }
-
-        console.error('Form submission error details:', error);
+        // For any other error, keep generic message; log full details only to console
+        if (error && error.message) {
+            console.error('Form submission error details:', error);
+        }
         showMessage(errorMessage, 'error');
     }
 

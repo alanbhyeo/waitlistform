@@ -20,14 +20,12 @@
 5. Click **"Add New"** button
 6. Enter:
    - **Name**: `VITE_SUPABASE_URL`
-   - **Value**: `https://dkgfuuenjbzsbtjiuhjn.supabase.co`
+   - **Value**: Your Supabase project URL (from Supabase Dashboard → Settings → API)
    - **Environments**: Select all (Production, Preview, Development)
    - Click **"Save"**
 7. Repeat for second variable:
    - **Name**: `VITE_SUPABASE_ANON_KEY`
-   - **Value**: `sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra`
-   
-   **Important**: Using modern publishable key format (starting with `sb_publishable_`). The Supabase JS library v2.39.0+ supports this format.
+   - **Value**: Your Supabase anon (publishable) key from Dashboard → Settings → API
    - **Environments**: Select all
    - Click **"Save"**
 8. **Redeploy**: Go to "Deployments" tab → Click "..." on latest deployment → "Redeploy"
@@ -49,13 +47,4 @@ Vercel Dashboard
 
 **For Static HTML Files**: Environment variables in Vercel are typically used during build time. Since this is a static HTML site without a build step, the environment variables won't automatically be available in your browser JavaScript.
 
-**Current Setup**: The hardcoded values in `supabase-config.js` work fine because:
-- Supabase anon keys are **public** and safe to include in client-side code
-- They're designed to be exposed in the browser
-- No security risk for public keys
-
-**If you want to use environment variables**, you would need to:
-1. Add a build step (e.g., using a script to inject env vars)
-2. Or use a framework like Next.js or Vite that handles this automatically
-
-For now, **keeping the hardcoded values is perfectly fine and recommended** for simplicity.
+**Current Setup**: The project uses a build step (`npm run build`) that injects `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` into `supabase-config.js`. Do not commit real keys; set them in Vercel (and in `.env` for local development). See `SECURITY.md` for details.

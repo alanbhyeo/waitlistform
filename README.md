@@ -101,8 +101,8 @@ This project contains a person details webform with the following features:
 
 1. In Vercel dashboard, go to your project settings → Environment Variables
 2. Add these variables (see `VERCEL_ENV_VARS.md` for detailed instructions):
-   - `VITE_SUPABASE_URL`: `https://dkgfuuenjbzsbtjiuhjn.supabase.co`
-   - `VITE_SUPABASE_ANON_KEY`: `sb_publishable_ZLrnZf-SImiW-5bdW1gOqA_ATYz8Pra`
+   - `VITE_SUPABASE_URL`: your Supabase project URL (e.g. `https://YOUR_PROJECT_REF.supabase.co`)
+   - `VITE_SUPABASE_ANON_KEY`: your Supabase anon/publishable key (from Supabase Dashboard → Settings → API)
 3. Select all environments (Production, Preview, Development)
 4. The build script (`build.js`) automatically injects these values at build time
 
